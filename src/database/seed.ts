@@ -17,8 +17,8 @@ const pick = <T>(items: T[]): T => items[Math.floor(random() * items.length)];
 
 const FIRST_NAMES = ['Ana', 'Luis', 'María', 'Carlos', 'Laura', 'Andrés', 'Sofía', 'Jorge', 'Valentina', 'Diego', 'Camila', 'Felipe'];
 const LAST_NAMES = ['Gómez', 'Rodríguez', 'López', 'Martínez', 'García', 'Pérez', 'Sánchez', 'Ramírez', 'Torres', 'Díaz'];
-const SPECIALTIES = ['Cardiología', 'Pediatría', 'Dermatología', 'Medicina General', 'Neurología'];
-const REASONS = ['Control', 'Dolor de cabeza', 'Chequeo anual', 'Resultados de laboratorio', 'Seguimiento'];
+const SPECIALTIES = ['Cardiology', 'Pediatrics', 'Dermatology', 'General Medicine', 'Neurology'];
+const REASONS = ['Check-up', 'Headache', 'Annual exam', 'Lab results', 'Follow-up'];
 
 export const seedPatients: Patient[] = Array.from({ length: 1000 }, (_, i) => {
   const firstName = pick(FIRST_NAMES);
@@ -33,14 +33,14 @@ export const seedPatients: Patient[] = Array.from({ length: 1000 }, (_, i) => {
     email: `${firstName}.${lastName}.${i + 1}@mail.com`.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''),
     birthDate: `${year}-${month}-${day}`,
     nationalId: String(10000000 + Math.floor(random() * 89999999)),
-    medicalNotes: random() > 0.7 ? 'Paciente con antecedentes de hipertensión' : undefined,
+    medicalNotes: random() > 0.7 ? 'Patient with a history of hypertension' : undefined,
     createdAt: new Date(2024, 0, 1),
   };
 });
 
 export const seedDoctors: Doctor[] = Array.from({ length: 20 }, (_, i) => ({
   id: i + 1,
-  fullName: `Dr(a). ${pick(FIRST_NAMES)} ${pick(LAST_NAMES)}`,
+  fullName: `Dr. ${pick(FIRST_NAMES)} ${pick(LAST_NAMES)}`,
   specialty: SPECIALTIES[i % SPECIALTIES.length],
   workdayStart: '08:00',
   workdayEnd: '17:00',

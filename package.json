@@ -1,7 +1,7 @@
 {
   "name": "live-coding",
   "version": "0.1.0",
-  "description": "Proyecto base para prueba técnica de live coding (NestJS)",
+  "description": "Base project for a NestJS live coding interview",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

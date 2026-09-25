@@ -1,58 +1,58 @@
-# Prueba técnica: Backend NestJS
+# Technical interview: NestJS backend
 
-API de una clínica para gestionar **pacientes**, **médicos** y **citas**. La persistencia está simulada en memoria (`src/database/in-memory-database.ts`).
+A clinic API that manages **patients**, **doctors** and **appointments**. Persistence is simulated in memory (`src/database/in-memory-database.ts`).
 
-No necesitas instalar ni ejecutar nada: la prueba consiste en leer y escribir código. Piensa en voz alta; nos interesa tanto tu razonamiento como el código.
+You don't need to install or run anything: this exercise is about reading and writing code. Please think out loud; we care about your reasoning as much as the code.
 
 ```
 src/
-├── appointments/    # Citas
-├── doctors/         # Médicos
-├── patients/        # Pacientes
-├── database/        # "Base de datos" en memoria
-└── common/utils/    # Utilidades compartidas
+├── appointments/    # Appointments
+├── doctors/         # Doctors
+├── patients/        # Patients
+├── database/        # In-memory "database"
+└── common/utils/    # Shared utilities
 ```
 
 ---
 
-## Parte 1: corregir incidentes (≈12 min)
+## Part 1: fix the incidents (~12 min)
 
-Soporte reportó estos problemas. Encuentra la causa en el código y corrígela.
+Support reported the following issues. Find the cause in the code and fix it.
 
-1. `GET /patients/5` responde con error 500, aunque el paciente 5 existe.
-2. `GET /appointments/doctor/3` devuelve `"appointments": {}`, aunque el médico 3 tiene citas.
-3. `GET /appointments` es lento y empeora a medida que crece la base. ¿Cómo lo mejorarías?
+1. `GET /patients/5` returns a 500 error, even though patient 5 exists.
+2. `GET /appointments/doctor/3` returns `"appointments": {}`, even though doctor 3 has appointments.
+3. `GET /appointments` is slow and gets worse as the database grows. How would you improve it?
 
-## Parte 2: nuevas funcionalidades (≈15 min)
+## Part 2: new features (~15 min)
 
-### 2.1 Buscar pacientes por email
+### 2.1 Search patients by email
 
 ```
 GET /patients/search?email=garcia
 GET /patients/search?email=jorge.garcia.1@mail.com&exact=true
 ```
 
-- Por defecto busca por **similitud**: pacientes cuyo email contiene el texto, sin distinguir mayúsculas de minúsculas.
-- Con `exact=true` busca por **igualdad**.
-- Devuelve el mismo formato que `GET /patients`.
-- Si no se envía `email`, responde 400.
+- By default it searches by **similarity**: patients whose email contains the text, case-insensitive.
+- With `exact=true` it searches for an **exact match**.
+- Returns the same format as `GET /patients`.
+- If `email` is not provided, respond with 400.
 
-### 2.2 Nueva entidad: Profesional
+### 2.2 New entity: Professional
 
-Crea el módulo de **profesionales de la salud** (enfermería, nutrición, psicología, etc.). Puedes guiarte por los módulos existentes.
+Create the **healthcare professionals** module (nursing, nutrition, psychology, etc.). Feel free to use the existing modules as a guide.
 
-| Campo           | Tipo      | Notas                                  |
-| --------------- | --------- | -------------------------------------- |
-| `id`            | `number`  | Autogenerado                           |
-| `fullName`      | `string`  | Obligatorio                            |
-| `profession`    | `string`  | Obligatorio                            |
-| `licenseNumber` | `string`  | Obligatorio y **único**                |
-| `email`         | `string`  | Obligatorio y con formato válido       |
-| `active`        | `boolean` | `true` al crearlo                      |
-| `createdAt`     | `Date`    | Automático                             |
+| Field           | Type      | Notes                           |
+| --------------- | --------- | ------------------------------- |
+| `id`            | `number`  | Auto-generated                  |
+| `fullName`      | `string`  | Required                        |
+| `profession`    | `string`  | Required                        |
+| `licenseNumber` | `string`  | Required and **unique**         |
+| `email`         | `string`  | Required, valid email format    |
+| `active`        | `boolean` | `true` on creation              |
+| `createdAt`     | `Date`    | Set automatically               |
 
 Endpoints:
 
-- `POST /professionals`: crea un profesional. Si el `licenseNumber` ya existe, responde 409.
-- `GET /professionals`: lista todos.
-- `GET /professionals/:id`: detalle. Si no existe, responde 404.
+- `POST /professionals`: creates a professional. If the `licenseNumber` already exists, respond with 409.
+- `GET /professionals`: lists all professionals.
+- `GET /professionals/:id`: returns one professional. If it doesn't exist, respond with 404.
